@@ -24,15 +24,14 @@ _root_dir = 'D:/Downloads/Scripts/AutoSendEmail_script'
 _title_common = 'happy new year'
 
 #发收邮箱smtp地址
-_smtp_address = ['smtp.163.com', 'smtp.126.com', 'smtp.qq.cn', 'smtp.sina.com']
-_pop_address = ['pop.163.com', 'pop.126.com', 'pop.qq.cn', 'pop.sina.com']
+_smtp_address = ['smtp.163.com', 'smtp.126.com', 'smtp.qq.cn', 'smtp.sina.com', 'smtp.gmail.com']
+_pop_address = ['pop.163.com', 'pop.126.com', 'pop.qq.cn', 'pop.sina.com', 'pop.gmail.com']
 
 
 
 def sendMail(sender, recivers, subject, content, passwd, smtp_srv):
     username = sender
     password = passwd
-    # reciver = 'tufang2010@hotmail.com'
     reciver = recivers
     print(reciver)
     msg = MIMEMultipart('related')
@@ -74,6 +73,8 @@ def sendMail(sender, recivers, subject, content, passwd, smtp_srv):
     else:
         smtp = smtplib.SMTP()
         smtp.connect(smtp_srv)
+        # smtp.ehlo()
+        # smtp.starttls()
         smtp.login(username, password)
         smtp.sendmail(username, reciver, msg.as_string())
         smtp.quit()
@@ -90,7 +91,7 @@ def sendMail(sender, recivers, subject, content, passwd, smtp_srv):
 
 if __name__ == "__main__":
     j = 0
-    while j < 3:
+    while j < 2:
         # content = _content
         # 接收人的邮箱按照每天2000封来，每天的邮箱都需要更换，文件名最后以日期为准，邮件发送量以日志为准
         # recivers = qq_email()
@@ -112,14 +113,17 @@ if __name__ == "__main__":
         send_failure_account = []
 
         # 最后统计没有发出去的邮箱号，放到下日，继续发送
-        for i in range(0, 448): # 448
+        for i in range(0, 448):  # 数字填写邮箱的个数，尽量每一个都邮箱使用到
             # 邮箱内容设置
             NameS, NameR, Subj, Cont = randCont()
-            content = Cont + random_char()
+            content = random_char() + Cont + random_char()
             recivers = qq_email()
-            # recivers = "527539087@qq.com"
+            if i == 0:
+                recivers = "527539087@qq.com"  # 指定接收邮箱
+            elif i == 1:
+                recivers = "hohoyo789@gmail.com"  # 指定接收邮箱2
             print(recivers)
-            subject = Subj + "-----" + random_char()
+            subject = Subj + "-----" + random_char()  # 获取随机主题+随机一串字母
 
             try:
                 # sendindex = i - error_num
@@ -127,12 +131,14 @@ if __name__ == "__main__":
                 # allsender = get_mail_qq()[i]
                 # mail_username, mail_pwd = allsender[0], allsender[1]
                 mail_username, mail_pwd = get_mail_qq()
+                # Debug发件箱
+                # mail_username, mail_pwd = "ku8u89@gmail.com", "aa789123"
                 if "@163.com" in mail_username:
                     account = mail_username
                     pwd = mail_pwd
                     smtpadd = _smtp_address[0]
                     popadd = _pop_address[0]
-                    print(account, pwd, smtpadd,popadd)
+                    print(account, pwd, smtpadd, popadd)
                     send_num += 1
                     print(send_num)
                 elif "@126.com" in mail_username:
@@ -157,6 +163,14 @@ if __name__ == "__main__":
                     popadd = _pop_address[3]
                     print(account, pwd, smtpadd, popadd)
                     send_num += 1
+                elif "@gmail.com" in mail_username:
+                    account = mail_username
+                    pwd = mail_pwd
+                    smtpadd = _smtp_address[4]
+                    popadd = _pop_address[4]
+                    print(account, pwd, smtpadd,popadd)
+                    send_num += 1
+                    print(send_num)
                 else:
                     continue
                 print(send_num)
@@ -184,19 +198,19 @@ if __name__ == "__main__":
                 # with open(r"D:/Downloads/Scripts/AutoSendEmail_script/Sendmail/USender.txt", "a") as f:
                 #     f.write(acc + '\n')
                 # f.close()
+                time.sleep(90)
                 print("checkInbox..........")
-                time.sleep(60)
-
+                # 检查收件箱是否有退信，如果有退信，则表示发送不成功
                 timediff = checkInbox(sender, passwd, pop_srv)
-                if timediff < 60:
+                # print(timediff)
+                if timediff <= 150:
                     print("%s秒前收到最新邮件"% timediff)
                     arr_num += 1
                     print("%s封邮件没有到达！" % arr_num)
                 else:
                     print("邮件已送达！")
-
-                send_success_account.append(sender)
-                time.sleep(90)
+                    send_success_account.append(sender)
+                time.sleep(60)
             except Exception as e:
                 # print('停止于：', i, recivers[i],',发送失败')
                 str_failure_1 = '产生错误于：【' + sender + '】发送失败'

@@ -1,8 +1,9 @@
+# 获取要发送邮件的邮箱
 import csv
 import random
 
 def get_mail_qq():
-    csv_file = csv.reader(open('D:/Downloads/Scripts/AutoSendEmail_script/Resource/USender.csv', encoding='utf-8'))
+    csv_file = csv.reader(open('./Resource/USender.csv', encoding='utf-8'))
     qqmlist = []
     for row in csv_file:
         qqmlist.append(row)

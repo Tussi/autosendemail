@@ -1,3 +1,4 @@
+# 检查收件箱是否有退信
 import poplib
 from datetime import datetime
 import re
@@ -116,7 +117,7 @@ def checkInbox(em, pas, pop):
     server.quit()
 
 if __name__ == "__main__":
-    e = '406556942@qq.com'
-    p = 'Iwt.ay77'
-    pop = 'pop.qq.com'
+    e = 'twfqz132vv@126.com'
+    p = 'dingzhi60'
+    pop = 'pop.126.com'
     checkInbox(e, p, pop)

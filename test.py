@@ -1,5 +1,8 @@
 from Sendmail.CheckEmail import checkInbox
 
+a = checkInbox("vx0483@163.com", "gude27", "pop.163.com")
+print(a)
+
 # import imaplib
 # imapclient = imaplib.IMAP4("imap.126.com", "143")
 # imapclient.login('binxibinxi@126.com', 'binxi513021')
@@ -84,11 +87,11 @@ from Sendmail.CheckEmail import checkInbox
 # if __name__ == "__main__":
 #     imap = Imapmail()
 #     imap.serveraddress = "imap.126.com"  # 邮箱地址
-#     imap.user = "binxibinxi@126.com"  # 邮箱密码
-#     imap.passwd = "binxi513021"  # 邮箱账号
+#     imap.user = "ajryw3189yl@126.com"  # 邮箱密码
+#     imap.passwd = "dingzhi60"  # 邮箱账号
 #     imap.savepath = ""  # 邮件存放路径
 #     imap.client()
 #     imap.login()
 #     imap.getmaildir()
 #     imap.getallmail()
-#     # imap.close()
+    # imap.close()
